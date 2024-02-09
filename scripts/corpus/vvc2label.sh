@@ -5,7 +5,7 @@ tmp=$(mktemp)
 output="${dir}/data/VVC_labels.csv"
 cnt=1
 
-echo "ANG,FEA,JOY,SAD" > $output
+echo "id,lavel,audio" > $output
 
 cd "${dir}/VVC/chat/"
 
@@ -49,21 +49,18 @@ do
 	else
 		total=$(cat -- $file | wc -l)
 
+		id=${file%%.*}
 		if [ $(echo "scale=2; $(cat eval.tmp | awk 'NR==2') / $total * 100" | bc | sed 's/\..*//') -ge 50 ] ; then
-			echo $file >> "${dir}/list/VVC2.list"
-			echo "ANG" >> $output
+			echo "${id},ANG,${id}.wav" >> $output
 		fi
 		if [ $(echo "scale=2; $(cat eval.tmp | awk 'NR==3') / $total * 100" | bc | sed 's/\..*//') -ge 50 ] ; then
-			echo $file >> "${dir}/list/VVC2.list"
-			echo "FEA" >> $output
+			echo "${id},FEA,${id}.wav" >> $output
 		fi
 		if [ $(echo "scale=2; $(cat eval.tmp | awk 'NR==4') / $total * 100" | bc | sed 's/\..*//') -ge 50 ] ; then
-			echo $file >> "${dir}/list/VVC2.list"
-			echo "JOY" >> $output
+			echo "${id},JOY,${id}.wav" >> $output
 		fi
 		if [ $(echo "scale=2; $(cat eval.tmp | awk 'NR==5') / $total * 100" | bc | sed 's/\..*//') -ge 50 ] ; then
-			echo $file >> "${dir}/list/VVC2.list"
-			echo "SAD" >> $output
+			echo "${id},SAD,${id}.wav" >> $output
 		fi
 	fi
 
